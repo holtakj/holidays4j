@@ -21,6 +21,7 @@ public class CatholicProvider extends AbstractProvider<CatholicProvider> {
     private static final ResultCache<Integer, LocalDate> CACHE_easterMonday = new ResultCache<>();
     private static final ResultCache<Integer, LocalDate> CACHE_ascensionDay = new ResultCache<>();
     private static final ResultCache<Integer, LocalDate> CACHE_whitMonday = new ResultCache<>();
+    private static final ResultCache<Integer, LocalDate> CACHE_corpusChristi = new ResultCache<>();
 
     public static LocalDate easterMonday(int year) {
         return CACHE_easterMonday.computeIfAbsent(year, compute_easterMonday());
@@ -84,6 +85,17 @@ public class CatholicProvider extends AbstractProvider<CatholicProvider> {
         };
     }
 
+    public static LocalDate corpusChristi(int year) {
+        return CACHE_corpusChristi.computeIfAbsent(year, compute_corpusChristi());
+    }
+
+    private static Function<? super Integer, LocalDate> compute_corpusChristi() {
+        return (year) -> {
+            val easterSunday = easterSunday(year);
+            return easterSunday.plusDays(60);
+        };
+    }
+
 
     protected Function<? super Integer, ? extends List<Holiday>> compute_holidays() {
         return (year) -> {
@@ -111,6 +123,14 @@ public class CatholicProvider extends AbstractProvider<CatholicProvider> {
                     .fixed(false)
                     .types(createSet(PUBLIC, RELIGION));
 
+            val corpusChristi = new Holiday()
+                    .id(Id.CORPUS_CHRISTI)
+                    .name("Corpus Christi")
+                    .date(corpusChristi(year))
+                    .global(true)
+                    .fixed(false)
+                    .types(createSet(PUBLIC, RELIGION));
+
             val christmasDay = new Holiday()
                     .id(Id.CHRISTMAS_DAY)
                     .name("Christmas Day")
@@ -123,6 +143,7 @@ public class CatholicProvider extends AbstractProvider<CatholicProvider> {
                     easterMonday,
                     ascensionDay,
                     whitMonday,
+                    corpusChristi,
                     christmasDay
             );
         };
@@ -133,6 +154,7 @@ public class CatholicProvider extends AbstractProvider<CatholicProvider> {
         EASTER_MONDAY,
         ASCENSION_DAY,
         WHIT_MONDAY,
+        CORPUS_CHRISTI,
         CHRISTMAS_DAY
     }
 }

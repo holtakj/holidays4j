@@ -32,6 +32,7 @@ public class Austria extends AbstractCountryProvider {
                         CatholicProvider.Id.EASTER_MONDAY,
                         CatholicProvider.Id.CHRISTMAS_DAY,
                         CatholicProvider.Id.WHIT_MONDAY,
+                        CatholicProvider.Id.CORPUS_CHRISTI,
                         CatholicProvider.Id.ASCENSION_DAY
                 ),
                 new StandardFixedPublicProvider().whitelist(
@@ -64,6 +65,7 @@ public class Austria extends AbstractCountryProvider {
                 new Translation(CatholicProvider.Id.EASTER_MONDAY, "Ostermontag"),
                 new Translation(CatholicProvider.Id.ASCENSION_DAY, "Christi Himmelfahrt"),
                 new Translation(CatholicProvider.Id.WHIT_MONDAY, "Pfingstmontag"),
+                new Translation(CatholicProvider.Id.CORPUS_CHRISTI, "Fronleichnam"),
                 new Translation(StandardFixedPublicProvider.Id.NEW_YEAR, "Neujahr")
         };
     }
