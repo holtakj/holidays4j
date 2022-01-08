@@ -1,5 +1,6 @@
 package com.holtak.holidays4j.provider;
 
+import com.holtak.holidays4j.Holidays4j;
 import com.holtak.holidays4j.exception.Holiday4jException;
 import com.holtak.holidays4j.model.Country;
 import lombok.val;

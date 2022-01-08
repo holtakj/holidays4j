@@ -1,4 +1,4 @@
-package com.holtak.holidays4j.provider;
+package com.holtak.holidays4j;
 
 import com.holtak.holidays4j.exception.Holiday4jException;
 import com.holtak.holidays4j.model.Country;
@@ -31,7 +31,7 @@ public class Holidays4j {
         }
     }
 
-    public static List<Holiday> holidayInfo(int year, Country country) {
+    public static List<Holiday> holidays(int year, Country country) {
         //noinspection SwitchStatementWithTooFewBranches
         switch (country) {
             case AUSTRIA:

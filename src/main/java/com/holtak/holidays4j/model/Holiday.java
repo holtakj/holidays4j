@@ -1,6 +1,5 @@
 package com.holtak.holidays4j.model;
 
-import com.holtak.holidays4j.provider.HolidayIdEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,6 +8,8 @@ import lombok.experimental.Accessors;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
+import java.util.HashSet;
+import java.util.Set;
 
 import static java.time.temporal.ChronoField.*;
 
@@ -16,7 +17,7 @@ import static java.time.temporal.ChronoField.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(fluent = true)
-public class Holiday {
+public class Holiday implements Comparable<Holiday> {
 
     private static final DateTimeFormatter formatter;
 
@@ -40,13 +41,12 @@ public class Holiday {
     private String dateAsString;
     private String name;
     private String localizedName;
-    private Country country;
-    private String countryCode;
+    private Holiday4jCountry country;
     private boolean fixed;
     private boolean global;
     private boolean national;
     private Integer sinceYear;
-    private HolidayType[] types;
+    private Set<HolidayType> types = new HashSet<>();
 
     public void setDateAsString(LocalDate date) {
         this.dateAsString = formatter.format(date);
@@ -58,4 +58,8 @@ public class Holiday {
         return this;
     }
 
+    @Override
+    public int compareTo(Holiday o) {
+        return this.date.compareTo(o.date);
+    }
 }

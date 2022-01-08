@@ -7,10 +7,12 @@ import lombok.ToString;
 @AllArgsConstructor
 @Getter
 @ToString
-public enum Country {
+public enum Country implements Holiday4jCountry {
 
-    AUSTRIA("AT");
+    AUSTRIA("Austria", "AT", "Österreich");
 
+    private String name;
     private String twoLetterIsoCode;
+    private String localizedName;
 
 }

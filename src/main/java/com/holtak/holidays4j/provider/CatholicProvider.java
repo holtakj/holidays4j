@@ -1,8 +1,9 @@
 package com.holtak.holidays4j.provider;
 
 import com.holtak.holidays4j.ResultCache;
+import com.holtak.holidays4j.logic.AbstractProvider;
 import com.holtak.holidays4j.model.Holiday;
-import com.holtak.holidays4j.model.HolidayType;
+import com.holtak.holidays4j.model.HolidayIdEnum;
 import lombok.val;
 
 import java.time.LocalDate;
@@ -11,14 +12,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 
-import static com.holtak.holidays4j.model.HolidayType.PUBLIC;
-import static com.holtak.holidays4j.model.HolidayType.RELIGION;
+import static com.holtak.holidays4j.model.StandardHolidayType.PUBLIC;
+import static com.holtak.holidays4j.model.StandardHolidayType.RELIGION;
 
-public class CatholicProvider implements HolidayProvider {
+public class CatholicProvider extends AbstractProvider<CatholicProvider> {
 
-    private static final ResultCache<Integer, List<Holiday>> CACHE = new ResultCache<>();
     private static final ResultCache<Integer, LocalDate> CACHE_easterSunday = new ResultCache<>();
     private static final ResultCache<Integer, LocalDate> CACHE_easterMonday = new ResultCache<>();
+    private static final ResultCache<Integer, LocalDate> CACHE_ascensionDay = new ResultCache<>();
 
     public static LocalDate easterMonday(int year) {
         return CACHE_easterMonday.computeIfAbsent(year, compute_easterMonday());
@@ -60,12 +61,19 @@ public class CatholicProvider implements HolidayProvider {
         };
     }
 
-    @Override
-    public List<Holiday> holidays(int year) {
-        return CACHE.computeIfAbsent(year, compute_holidays());
+    public static LocalDate ascensionDay(int year) {
+        return CACHE_ascensionDay.computeIfAbsent(year, compute_ascensionDay());
     }
 
-    private Function<? super Integer, ? extends List<Holiday>> compute_holidays() {
+    private static Function<? super Integer, LocalDate> compute_ascensionDay() {
+        return (year) -> {
+            val easterSunday = easterSunday(year);
+            return easterSunday.plusDays(39);
+        };
+    }
+
+
+    protected Function<? super Integer, ? extends List<Holiday>> compute_holidays() {
         return (year) -> {
             val easterMonday = new Holiday()
                     .id(Id.EASTER_MONDAY)
@@ -73,18 +81,27 @@ public class CatholicProvider implements HolidayProvider {
                     .date(easterMonday(year))
                     .global(true)
                     .fixed(false)
-                    .types(new HolidayType[]{PUBLIC, RELIGION});
+                    .types(createSet(PUBLIC, RELIGION));
+
+            val ascensionDay = new Holiday()
+                    .id(Id.ASCENSION_DAY)
+                    .name("Ascension Day")
+                    .date(ascensionDay(year))
+                    .global(true)
+                    .fixed(false)
+                    .types(createSet(PUBLIC, RELIGION));
 
             val christmasDay = new Holiday()
                     .id(Id.CHRISTMAS_DAY)
                     .name("Christmas Day")
                     .date(LocalDate.of(year, Month.DECEMBER, 25))
                     .global(true)
-                    .fixed(false)
-                    .types(new HolidayType[]{PUBLIC, RELIGION});
+                    .fixed(true)
+                    .types(createSet(PUBLIC, RELIGION));
 
             return Arrays.asList(
                     easterMonday,
+                    ascensionDay,
                     christmasDay
             );
         };
@@ -93,6 +110,7 @@ public class CatholicProvider implements HolidayProvider {
 
     public enum Id implements HolidayIdEnum {
         EASTER_MONDAY,
+        ASCENSION_DAY,
         CHRISTMAS_DAY
     }
 }
