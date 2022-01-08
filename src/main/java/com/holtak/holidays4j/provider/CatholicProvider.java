@@ -20,6 +20,7 @@ public class CatholicProvider extends AbstractProvider<CatholicProvider> {
     private static final ResultCache<Integer, LocalDate> CACHE_easterSunday = new ResultCache<>();
     private static final ResultCache<Integer, LocalDate> CACHE_easterMonday = new ResultCache<>();
     private static final ResultCache<Integer, LocalDate> CACHE_ascensionDay = new ResultCache<>();
+    private static final ResultCache<Integer, LocalDate> CACHE_whitMonday = new ResultCache<>();
 
     public static LocalDate easterMonday(int year) {
         return CACHE_easterMonday.computeIfAbsent(year, compute_easterMonday());
@@ -72,6 +73,17 @@ public class CatholicProvider extends AbstractProvider<CatholicProvider> {
         };
     }
 
+    public static LocalDate whitMonday(int year) {
+        return CACHE_whitMonday.computeIfAbsent(year, compute_whitMonday());
+    }
+
+    private static Function<? super Integer, LocalDate> compute_whitMonday() {
+        return (year) -> {
+            val easterSunday = easterSunday(year);
+            return easterSunday.plusDays(49);
+        };
+    }
+
 
     protected Function<? super Integer, ? extends List<Holiday>> compute_holidays() {
         return (year) -> {
@@ -91,6 +103,14 @@ public class CatholicProvider extends AbstractProvider<CatholicProvider> {
                     .fixed(false)
                     .types(createSet(PUBLIC, RELIGION));
 
+            val whitMonday = new Holiday()
+                    .id(Id.WHIT_MONDAY)
+                    .name("Whit Monday")
+                    .date(whitMonday(year))
+                    .global(true)
+                    .fixed(false)
+                    .types(createSet(PUBLIC, RELIGION));
+
             val christmasDay = new Holiday()
                     .id(Id.CHRISTMAS_DAY)
                     .name("Christmas Day")
@@ -102,6 +122,7 @@ public class CatholicProvider extends AbstractProvider<CatholicProvider> {
             return Arrays.asList(
                     easterMonday,
                     ascensionDay,
+                    whitMonday,
                     christmasDay
             );
         };
@@ -111,6 +132,7 @@ public class CatholicProvider extends AbstractProvider<CatholicProvider> {
     public enum Id implements HolidayIdEnum {
         EASTER_MONDAY,
         ASCENSION_DAY,
+        WHIT_MONDAY,
         CHRISTMAS_DAY
     }
 }
