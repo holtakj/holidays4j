@@ -30,7 +30,7 @@ public abstract class AbstractProvider<T> implements HolidayProvider {
         return (T) this;
     }
 
-    public Set<HolidayIdEnum> getEnabledHolidays() {
+    public Set<HolidayIdEnum> whitelist() {
         return whitelistedSet;
     }
 

@@ -8,12 +8,11 @@ import lombok.val;
 
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
-import static com.holtak.holidays4j.model.StandardHolidayType.PUBLIC;
-import static com.holtak.holidays4j.model.StandardHolidayType.RELIGION;
+import static com.holtak.holidays4j.model.StandardHolidayType.*;
 
 public class CatholicProvider extends AbstractProvider<CatholicProvider> {
 
@@ -99,53 +98,98 @@ public class CatholicProvider extends AbstractProvider<CatholicProvider> {
 
     protected Function<? super Integer, ? extends List<Holiday>> compute_holidays() {
         return (year) -> {
-            val easterMonday = new Holiday()
+            val resultList = new ArrayList<Holiday>();
+            resultList.add(new Holiday()
                     .id(Id.EASTER_MONDAY)
                     .name("Easter Monday")
                     .date(easterMonday(year))
                     .global(true)
                     .fixed(false)
-                    .types(createSet(PUBLIC, RELIGION));
+                    .types(createSet(PUBLIC, RELIGION))
+            );
 
-            val ascensionDay = new Holiday()
+            resultList.add(new Holiday()
                     .id(Id.ASCENSION_DAY)
                     .name("Ascension Day")
                     .date(ascensionDay(year))
                     .global(true)
                     .fixed(false)
-                    .types(createSet(PUBLIC, RELIGION));
+                    .types(createSet(PUBLIC, RELIGION))
+            );
 
-            val whitMonday = new Holiday()
+            resultList.add(new Holiday()
                     .id(Id.WHIT_MONDAY)
                     .name("Whit Monday")
                     .date(whitMonday(year))
                     .global(true)
                     .fixed(false)
-                    .types(createSet(PUBLIC, RELIGION));
+                    .types(createSet(PUBLIC, RELIGION))
+            );
 
-            val corpusChristi = new Holiday()
+            resultList.add(new Holiday()
                     .id(Id.CORPUS_CHRISTI)
                     .name("Corpus Christi")
                     .date(corpusChristi(year))
                     .global(true)
                     .fixed(false)
-                    .types(createSet(PUBLIC, RELIGION));
+                    .types(createSet(PUBLIC, RELIGION))
+            );
 
-            val christmasDay = new Holiday()
+            resultList.add(new Holiday()
                     .id(Id.CHRISTMAS_DAY)
                     .name("Christmas Day")
                     .date(LocalDate.of(year, Month.DECEMBER, 25))
                     .global(true)
                     .fixed(true)
-                    .types(createSet(PUBLIC, RELIGION));
-
-            return Arrays.asList(
-                    easterMonday,
-                    ascensionDay,
-                    whitMonday,
-                    corpusChristi,
-                    christmasDay
+                    .types(createSet(PUBLIC, RELIGION))
             );
+
+            resultList.add(new Holiday()
+                    .id(Id.ST_STEPHANS_DAY)
+                    .name("t. Stephen's Day")
+                    .date(LocalDate.of(year, Month.DECEMBER, 26))
+                    .global(true)
+                    .fixed(true)
+                    .types(createSet(PUBLIC, RELIGION))
+            );
+
+            resultList.add(new Holiday()
+                    .id(Id.ALL_SAINT_DAY)
+                    .name("All Saints' Day")
+                    .date(LocalDate.of(year, Month.NOVEMBER, 1))
+                    .global(true)
+                    .fixed(true)
+                    .types(createSet(PUBLIC, RELIGION))
+            );
+
+            resultList.add(new Holiday()
+                    .id(Id.ASSUMPTION_DAY)
+                    .name("Assumption Day")
+                    .date(LocalDate.of(year, Month.AUGUST, 15))
+                    .global(true)
+                    .fixed(true)
+                    .types(createSet(PUBLIC, RELIGION))
+            );
+
+            resultList.add(new Holiday()
+                    .id(Id.IMMACULATE_CONCEPTION)
+                    .name("Immaculate Conception")
+                    .date(LocalDate.of(year, Month.DECEMBER, 8))
+                    .global(true)
+                    .fixed(true)
+                    .types(createSet(PUBLIC, RELIGION))
+            );
+
+            resultList.add(new Holiday()
+                    .id(Id.EPIPHANY)
+                    .name("Epiphany")
+                    .date(LocalDate.of(year, Month.JANUARY, 6))
+                    .global(true)
+                    .fixed(true)
+                    .types(createSet(PUBLIC, RELIGION))
+            );
+
+            return resultList;
         };
     }
 
@@ -155,6 +199,11 @@ public class CatholicProvider extends AbstractProvider<CatholicProvider> {
         ASCENSION_DAY,
         WHIT_MONDAY,
         CORPUS_CHRISTI,
-        CHRISTMAS_DAY
+        CHRISTMAS_DAY,
+        ALL_SAINT_DAY,
+        ASSUMPTION_DAY,
+        IMMACULATE_CONCEPTION,
+        ST_STEPHANS_DAY,
+        EPIPHANY
     }
 }
