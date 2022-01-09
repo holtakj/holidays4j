@@ -11,14 +11,10 @@ import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.holtak.holidays4j.model.StandardHolidayType.*;
+import static com.holtak.holidays4j.model.StandardHolidayType.NATIONAL;
+import static com.holtak.holidays4j.model.StandardHolidayType.PUBLIC;
 
 public class Austria extends AbstractCountryProvider {
-
-    public enum Id implements HolidayIdEnum {
-        STAATSFEIERTAG,
-        NATIONALFEIRTAG,
-    }
 
     @Override
     protected Country country() {
@@ -70,9 +66,6 @@ public class Austria extends AbstractCountryProvider {
                 .types(createSet(PUBLIC, NATIONAL))
         );
 
-
-
-
         return resultList;
     }
 
@@ -103,6 +96,11 @@ public class Austria extends AbstractCountryProvider {
     @Override
     protected HolidayTypeMap[] holidayTypes() {
         return null;
+    }
+
+    public enum Id implements HolidayIdEnum {
+        STAATSFEIERTAG,
+        NATIONALFEIRTAG,
     }
 
 }
