@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 class AustriaTest {
 
-    private Austria INSTANCE = new Austria();
+    private final Austria INSTANCE = new Austria();
 
     @Test
     void bla() {
