@@ -34,7 +34,11 @@ public class Austria extends AbstractCountryProvider {
                         CatholicProvider.Id.ASSUMPTION_DAY,
                         CatholicProvider.Id.IMMACULATE_CONCEPTION,
                         CatholicProvider.Id.ST_STEPHANS_DAY,
-                        CatholicProvider.Id.EPIPHANY
+                        CatholicProvider.Id.EPIPHANY,
+                        CatholicProvider.Id.FIRST_ADVENT,
+                        CatholicProvider.Id.SECOND_ADVENT,
+                        CatholicProvider.Id.THIRD_ADVENT,
+                        CatholicProvider.Id.FOURTH_ADVENT
                 ),
                 new StandardFixedPublicProvider().whitelist(
                         StandardFixedPublicProvider.Id.NEW_YEAR
@@ -82,6 +86,10 @@ public class Austria extends AbstractCountryProvider {
                 new Translation(CatholicProvider.Id.ASSUMPTION_DAY, "Maria Himmelfahrt"),
                 new Translation(CatholicProvider.Id.IMMACULATE_CONCEPTION, "Mariä Empfängnis"),
                 new Translation(CatholicProvider.Id.EPIPHANY, "Heilige Drei Könige"),
+                new Translation(CatholicProvider.Id.FIRST_ADVENT, "1. Advent"),
+                new Translation(CatholicProvider.Id.SECOND_ADVENT, "2. Advent"),
+                new Translation(CatholicProvider.Id.THIRD_ADVENT, "3. Advent"),
+                new Translation(CatholicProvider.Id.FOURTH_ADVENT, "4. Advent"),
                 new Translation(StandardFixedPublicProvider.Id.NEW_YEAR, "Neujahr")
         };
     }

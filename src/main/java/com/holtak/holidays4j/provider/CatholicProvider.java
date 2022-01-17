@@ -5,7 +5,9 @@ import com.holtak.holidays4j.logic.AbstractProvider;
 import com.holtak.holidays4j.model.Holiday;
 import com.holtak.holidays4j.model.HolidayIdEnum;
 import lombok.val;
+import lombok.var;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
@@ -22,6 +24,10 @@ public class CatholicProvider extends AbstractProvider<CatholicProvider> {
     private static final ResultCache<Integer, LocalDate> CACHE_ascensionDay = new ResultCache<>();
     private static final ResultCache<Integer, LocalDate> CACHE_whitMonday = new ResultCache<>();
     private static final ResultCache<Integer, LocalDate> CACHE_corpusChristi = new ResultCache<>();
+    private static final ResultCache<Integer, LocalDate> CACHE_firstAdvent = new ResultCache<>();
+    private static final ResultCache<Integer, LocalDate> CACHE_secondAdvent = new ResultCache<>();
+    private static final ResultCache<Integer, LocalDate> CACHE_thirdAdvent = new ResultCache<>();
+    private static final ResultCache<Integer, LocalDate> CACHE_fourthAdvent = new ResultCache<>();
 
     public static LocalDate easterMonday(int year) {
         return CACHE_easterMonday.computeIfAbsent(year, compute_easterMonday());
@@ -94,6 +100,55 @@ public class CatholicProvider extends AbstractProvider<CatholicProvider> {
             val easterSunday = easterSunday(year);
             return easterSunday.plusDays(60);
         };
+    }
+
+    public static LocalDate firstAdvent(int year) {
+        return CACHE_firstAdvent.computeIfAbsent(year, compute_firstAdvent());
+    }
+
+    private static Function<? super Integer, LocalDate> compute_firstAdvent() {
+        return (year) -> computeAdvent(year, 1);
+    }
+
+    public static LocalDate secondAdvent(int year) {
+        return CACHE_secondAdvent.computeIfAbsent(year, compute_secondAdvent());
+    }
+
+    private static Function<? super Integer, LocalDate> compute_secondAdvent() {
+        return (year) -> computeAdvent(year, 2);
+    }
+
+    public static LocalDate thirdAdvent(int year) {
+        return CACHE_thirdAdvent.computeIfAbsent(year, compute_thirdAdvent());
+    }
+
+    private static Function<? super Integer, LocalDate> compute_thirdAdvent() {
+        return (year) -> computeAdvent(year, 3);
+    }
+
+    public static LocalDate fourthAdvent(int year) {
+        return CACHE_fourthAdvent.computeIfAbsent(year, compute_fourthAdvent());
+    }
+
+    private static Function<? super Integer, LocalDate> compute_fourthAdvent() {
+        return (year) -> computeAdvent(year, 4);
+    }
+
+    private static LocalDate computeAdvent(int year, int advent){
+        if( advent < 1 || advent > 4) throw new IllegalArgumentException("advent is an integer between 1 and 4 where 4 is the 4th advent");
+        val xmas = LocalDate.of(year, Month.DECEMBER, 25);
+        int adventCounter = 4;
+        var target = xmas;
+        while(true) {
+            target = target.minusDays(1);
+            if(target.getDayOfWeek() == DayOfWeek.SUNDAY) {
+                if(adventCounter == advent) {
+                    return target;
+                } else {
+                    adventCounter--;
+                }
+            }
+        }
     }
 
 
@@ -190,6 +245,42 @@ public class CatholicProvider extends AbstractProvider<CatholicProvider> {
                     .types(createSet(PUBLIC, RELIGION))
             );
 
+            resultList.add(new Holiday()
+                    .id(Id.FIRST_ADVENT)
+                    .name("1st Advent")
+                    .date(firstAdvent(year))
+                    .global(true)
+                    .fixed(false)
+                    .types(createSet(RELIGION))
+            );
+
+            resultList.add(new Holiday()
+                    .id(Id.SECOND_ADVENT)
+                    .name("2nd Advent")
+                    .date(secondAdvent(year))
+                    .global(true)
+                    .fixed(false)
+                    .types(createSet(RELIGION))
+            );
+
+            resultList.add(new Holiday()
+                    .id(Id.THIRD_ADVENT)
+                    .name("3rd Advent")
+                    .date(thirdAdvent(year))
+                    .global(true)
+                    .fixed(false)
+                    .types(createSet(RELIGION))
+            );
+
+            resultList.add(new Holiday()
+                    .id(Id.FOURTH_ADVENT)
+                    .name("4th Advent")
+                    .date(fourthAdvent(year))
+                    .global(true)
+                    .fixed(false)
+                    .types(createSet(RELIGION))
+            );
+
             return resultList;
         };
     }
@@ -205,6 +296,10 @@ public class CatholicProvider extends AbstractProvider<CatholicProvider> {
         ASSUMPTION_DAY,
         IMMACULATE_CONCEPTION,
         ST_STEPHANS_DAY,
-        EPIPHANY
+        EPIPHANY,
+        FIRST_ADVENT,
+        SECOND_ADVENT,
+        THIRD_ADVENT,
+        FOURTH_ADVENT
     }
 }
