@@ -23,6 +23,7 @@ public class CatholicProvider extends AbstractProvider<CatholicProvider> {
     private static final ResultCache<Integer, LocalDate> CACHE_easterMonday = new ResultCache<>();
     private static final ResultCache<Integer, LocalDate> CACHE_ascensionDay = new ResultCache<>();
     private static final ResultCache<Integer, LocalDate> CACHE_whitMonday = new ResultCache<>();
+    private static final ResultCache<Integer, LocalDate> CACHE_pentecost = new ResultCache<>();
     private static final ResultCache<Integer, LocalDate> CACHE_corpusChristi = new ResultCache<>();
     private static final ResultCache<Integer, LocalDate> CACHE_firstAdvent = new ResultCache<>();
     private static final ResultCache<Integer, LocalDate> CACHE_secondAdvent = new ResultCache<>();
@@ -85,6 +86,17 @@ public class CatholicProvider extends AbstractProvider<CatholicProvider> {
     }
 
     private static Function<? super Integer, LocalDate> compute_whitMonday() {
+        return (year) -> {
+            val easterSunday = easterSunday(year);
+            return easterSunday.plusDays(50);
+        };
+    }
+
+    public static LocalDate pentecost(int year) {
+        return CACHE_pentecost.computeIfAbsent(year, compute_pentecost());
+    }
+
+    private static Function<? super Integer, LocalDate> compute_pentecost() {
         return (year) -> {
             val easterSunday = easterSunday(year);
             return easterSunday.plusDays(49);
@@ -155,6 +167,16 @@ public class CatholicProvider extends AbstractProvider<CatholicProvider> {
     protected Function<? super Integer, ? extends List<Holiday>> compute_holidays() {
         return (year) -> {
             val resultList = new ArrayList<Holiday>();
+
+            resultList.add(new Holiday()
+                    .id(Id.EASTER_SUNDAY)
+                    .name("Easter Sunday")
+                    .date(easterSunday(year))
+                    .global(true)
+                    .fixed(false)
+                    .types(createSet(PUBLIC, RELIGION))
+            );
+
             resultList.add(new Holiday()
                     .id(Id.EASTER_MONDAY)
                     .name("Easter Monday")
@@ -168,6 +190,15 @@ public class CatholicProvider extends AbstractProvider<CatholicProvider> {
                     .id(Id.ASCENSION_DAY)
                     .name("Ascension Day")
                     .date(ascensionDay(year))
+                    .global(true)
+                    .fixed(false)
+                    .types(createSet(PUBLIC, RELIGION))
+            );
+
+            resultList.add(new Holiday()
+                    .id(Id.PENTECOST)
+                    .name("Pentecost")
+                    .date(pentecost(year))
                     .global(true)
                     .fixed(false)
                     .types(createSet(PUBLIC, RELIGION))
@@ -287,8 +318,10 @@ public class CatholicProvider extends AbstractProvider<CatholicProvider> {
 
 
     public enum Id implements HolidayIdEnum {
+        EASTER_SUNDAY,
         EASTER_MONDAY,
         ASCENSION_DAY,
+        PENTECOST,
         WHIT_MONDAY,
         CORPUS_CHRISTI,
         CHRISTMAS_DAY,

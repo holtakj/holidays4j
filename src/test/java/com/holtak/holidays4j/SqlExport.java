@@ -50,6 +50,11 @@ public class SqlExport {
             range.forEach(year -> {
                         val holidays = Holidays4j.holidays(year, country);
                         holidays.forEach(h -> {
+
+                            val recurringEvent = "INSERT INTO CAST_RECURRING_CALENDAREVENT(ID, CONSIDERHOLIDAYS, DAYSOFMONTH, DAYSOFWEEK, DESCRIPTION, FROMDATE, FROMTIME, TITLE, TODATE, TOTIME, TYPE, VALUE,MODIFIED_AT,MODIFIED_BY)  VALUES(RECURRING_SEQ.NEXTVAL, 0, '', '', '', '', '', 'Feiertag', '', '', 'HOLIDAY', 'Feiertag',to_timestamp('17.01.12 14:03:46,834000000','DD.MM.RR HH24:MI:SS,FF'),'NON_AUTHENTICATED_USER');";
+                            System.out.println(recurringEvent);
+                            printWriter.println(recurringEvent);
+
                             val sb = new StringBuilder();
                             sb.append("INSERT INTO CAST_CALENDAREVENT (ID, TITLE, DESCRIPTION, FROMDATE, TODATE, VALUE, TYPE, RECURRINGCALENDAREVENT_ID, CALENDAR_NAME) VALUES (");
 
@@ -61,7 +66,7 @@ public class SqlExport {
                                     .TODATE(to_date(h.date().plusDays(1)))
                                     .VALUE(qq(h.localizedName()))
                                     .TYPE(qq("HOLIDAY"))
-                                    .RECURRINGCALENDAREVENT_ID("4777") //FIXME get real value
+                                    .RECURRINGCALENDAREVENT_ID("RECURRING_SEQ.CURRVAL")
                                     .CALENDAR_NAME(qq("HOLIDAY"))
                                     .build();
                             sb.append(line.dumpValues());

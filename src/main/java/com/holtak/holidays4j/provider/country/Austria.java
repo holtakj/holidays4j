@@ -25,8 +25,10 @@ public class Austria extends AbstractCountryProvider {
     protected HolidayProvider[] providers() {
         return new HolidayProvider[]{
                 new CatholicProvider().whitelist(
+                        CatholicProvider.Id.EASTER_SUNDAY,
                         CatholicProvider.Id.EASTER_MONDAY,
                         CatholicProvider.Id.CHRISTMAS_DAY,
+                        CatholicProvider.Id.PENTECOST,
                         CatholicProvider.Id.WHIT_MONDAY,
                         CatholicProvider.Id.CORPUS_CHRISTI,
                         CatholicProvider.Id.ASCENSION_DAY,
@@ -78,8 +80,10 @@ public class Austria extends AbstractCountryProvider {
         return new Translation[]{
                 new Translation(CatholicProvider.Id.CHRISTMAS_DAY, "Christtag"),
                 new Translation(CatholicProvider.Id.ST_STEPHANS_DAY, "Stefanitag"),
+                new Translation(CatholicProvider.Id.EASTER_SUNDAY, "Ostersonntag"),
                 new Translation(CatholicProvider.Id.EASTER_MONDAY, "Ostermontag"),
                 new Translation(CatholicProvider.Id.ASCENSION_DAY, "Christi Himmelfahrt"),
+                new Translation(CatholicProvider.Id.PENTECOST, "Pfingstsonntag"),
                 new Translation(CatholicProvider.Id.WHIT_MONDAY, "Pfingstmontag"),
                 new Translation(CatholicProvider.Id.CORPUS_CHRISTI, "Fronleichnam"),
                 new Translation(CatholicProvider.Id.ALL_SAINT_DAY, "Allerheiligen"),
