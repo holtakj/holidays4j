@@ -36,11 +36,11 @@ public class Austria extends AbstractCountryProvider {
                         CatholicProvider.Id.ASSUMPTION_DAY,
                         CatholicProvider.Id.IMMACULATE_CONCEPTION,
                         CatholicProvider.Id.ST_STEPHANS_DAY,
-                        CatholicProvider.Id.EPIPHANY,
-                        CatholicProvider.Id.FIRST_ADVENT,
-                        CatholicProvider.Id.SECOND_ADVENT,
-                        CatholicProvider.Id.THIRD_ADVENT,
-                        CatholicProvider.Id.FOURTH_ADVENT
+                        CatholicProvider.Id.EPIPHANY
+//                        CatholicProvider.Id.FIRST_ADVENT,
+//                        CatholicProvider.Id.SECOND_ADVENT,
+//                        CatholicProvider.Id.THIRD_ADVENT,
+//                        CatholicProvider.Id.FOURTH_ADVENT
                 ),
                 new StandardFixedPublicProvider().whitelist(
                         StandardFixedPublicProvider.Id.NEW_YEAR
